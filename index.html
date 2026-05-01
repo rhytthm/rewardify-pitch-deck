@@ -2,165 +2,1163 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#FFF8EC"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<title>Rewardify</title>
-<link rel="stylesheet" href="styles.css"/>
+<title>Rewardify — Product Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fraunces:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  /* ============================================================
-     MOBILE = real fullscreen app · DESKTOP = phone showcase
-     ============================================================
-     On desktop we show the app inside a 402x874 phone bezel (the
-     showcase look). On mobile we throw away the bezel, scaling
-     the app's screen to fill the entire viewport so it feels like
-     a native app the user actually opened on their phone.
-  */
-  html, body { background: #E8E4DA; }
-  body { overscroll-behavior: none; }
+  :root {
+    --paper: #FFF8EC;
+    --paper-2: #F4ECD8;
+    --ink: #1A1208;
+    --ink-2: #4A3C28;
+    --ink-3: #806D52;
+    --rule: #1A1208;
+    --orange: #E55A1F;
+    --gold: #FFC93C;
+    --green: #1F7855;
+    --green-soft: #58D6A8;
+    --berry: #B23A2C;
+    --sky: #57B5F5;
+    --plum: #5A3CC0;
+  }
+  html, body { background: #2a2620; }
+  body { margin: 0; font-family: Nunito, system-ui, sans-serif; color: var(--ink); }
 
-  /* ---- Desktop / tablet: existing showcase, just make sure
-          nothing leaks. JS scaler below adapts if browser is small. */
-  .stage { overflow: hidden; }
-  .frames {
-    transform: scale(var(--fit-scale, 1));
-    transform-origin: center center;
+  deck-stage section {
+    background: var(--paper);
+    color: var(--ink);
+    overflow: hidden;
+    position: relative;
   }
 
-  /* ---- Mobile fullscreen mode (true narrow phones / portrait) ---- */
-  @media (max-width: 720px) {
-    html, body { background: var(--paper, #FFF8EC) !important; }
-    .stage {
-      position: fixed; inset: 0;
-      background: var(--paper, #FFF8EC) !important;
-      align-items: stretch !important;
-      justify-content: stretch !important;
-    }
-    .frames {
-      gap: 0 !important;
-      width: 100% !important; height: 100% !important;
-      transform: none !important;
-    }
-    /* IOSDevice root (the .frames > div with inline width/height/borderRadius). */
-    .frames > div {
-      width: 100vw !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      max-width: none !important; max-height: none !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      background: var(--paper, #FFF8EC) !important;
-    }
-    /* Hide the iOS chrome we faked on desktop:
-       Dynamic Island (top: 11; width:126; height:37; borderRadius:24)
-       and home indicator (bottom bar with width:139; height:5). */
-    .frames > div > div[style*="width: 126px"][style*="height: 37px"],
-    .frames > div > div[style*="height: 34px"] {
-      display: none !important;
-    }
-    /* Hide the fake iOS status bar (9:41 / signal / battery row).
-       It sits absolutely at top:0, ~44px tall. We let the real device
-       status bar show through instead. */
-    .frames > div > div[style*="height: 44px"][style*="position: absolute"][style*="top: 0"],
-    .frames > div > div[style*="position: absolute"][style*="top: 0px"][style*="height: 44px"] {
-      display: none !important;
-    }
-    /* Pull screen content to top of viewport (no notch padding needed
-       since the OS draws the real status bar above us). */
-    .scroll {
-      padding-top: max(56px, env(safe-area-inset-top, 56px)) !important;
-    }
-    /* Tab bar respects bottom safe area on iOS notch devices. */
-    .tabbar {
-      bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
-    }
-    /* View switcher (Kid / Parent) goes to top, smaller, above safe area. */
-    .view-switch {
-      top: max(8px, env(safe-area-inset-top, 8px)) !important;
-      transform: translateX(-50%) scale(0.85) !important;
-      transform-origin: top center;
-    }
+  /* Type styles */
+  .eyebrow {
+    font: 800 13px/1 Nunito;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .eyebrow.orange { color: var(--orange); }
+  .eyebrow.green  { color: var(--green); }
+  .h1 {
+    font: 900 88px/0.95 Fraunces;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .h2 {
+    font: 800 56px/1.0 Fraunces;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .h3 {
+    font: 800 36px/1.1 Fraunces;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .lede {
+    font: 500 22px/1.45 Nunito;
+    color: var(--ink-2);
+  }
+  .body {
+    font: 500 18px/1.55 Nunito;
+    color: var(--ink-2);
+  }
+  .small {
+    font: 700 14px/1.5 Nunito;
+    color: var(--ink-3);
+  }
+  .num {
+    font: 900 96px/0.9 Fraunces;
+    color: var(--orange);
+    letter-spacing: -0.04em;
+  }
+  .mono {
+    font: 700 13px/1 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
   }
 
-  /* Larger viewports: keep the safe-area-aware switch position. */
-  @supports (padding: max(0px)) {
-    .view-switch { top: max(14px, env(safe-area-inset-top, 14px)); }
+  /* Page chrome */
+  .page-chrome {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .page-num {
+    position: absolute; bottom: 36px; right: 48px;
+    font: 800 14px/1 Nunito;
+    color: var(--ink-3);
+    letter-spacing: 0.12em;
+  }
+  .page-num b { color: var(--ink); }
+  .brand-mark {
+    position: absolute; bottom: 32px; left: 48px;
+    display: flex; align-items: center; gap: 10px;
+    font: 800 16px/1 Fraunces;
+    color: var(--ink);
+  }
+  .brand-mark .dot {
+    width: 22px; height: 22px; border-radius: 7px;
+    background: var(--orange);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font: 900 13px/1 Fraunces;
+  }
+  .top-rule {
+    position: absolute; top: 36px; left: 48px; right: 48px;
+    height: 2px; background: var(--ink);
+  }
+  .top-meta {
+    position: absolute; top: 48px; left: 48px; right: 48px;
+    display: flex; justify-content: space-between;
+    font: 800 12px/1 Nunito;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* Two-column layout */
+  .two-col {
+    position: absolute; inset: 96px 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+  .col-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    min-width: 0;
+  }
+  .col-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Phone — iframe renders at native 402x874 (matches print-mode body),
+     wrapped in a fixed-size box and scaled via transform to fit slide column. */
+  .phone-wrap {
+    width: 322px;     /* 402 * 0.80 */
+    height: 700px;    /* 874 * 0.80 */
+    position: relative;
+    flex-shrink: 0;
+  }
+  .phone {
+    width: 402px;
+    height: 874px;
+    position: absolute;
+    top: 0; left: 0;
+    transform: scale(0.80);
+    transform-origin: top left;
+    border-radius: 48px;
+    overflow: hidden;
+    background: #1A1208;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.4);
+  }
+  .phone-screen {
+    width: 100%; height: 100%;
+    border-radius: 48px;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone iframe {
+    width: 402px; height: 874px;
+    border: 0;
+    display: block;
+    background: var(--paper);
+  }
+  /* Smaller variant for triple-phone slides */
+  .phone-wrap.small {
+    width: 241px;     /* 402 * 0.60 */
+    height: 524px;    /* 874 * 0.60 */
+  }
+  .phone-wrap.small .phone {
+    transform: scale(0.60);
+  }
+  .phone-tag { display: none; }
+  .phone-wrap { position: relative; }
+  .phone-cap { display: none; }
+
+  /* Bullet list (newspaper style) */
+  ul.bullets { list-style: none; margin: 0; padding: 0; }
+  ul.bullets li {
+    position: relative;
+    padding: 10px 0 10px 26px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font: 600 17px/1.45 Nunito;
+    color: var(--ink-2);
+  }
+  ul.bullets li:last-child { border-bottom: 0; }
+  ul.bullets li::before {
+    content: '';
+    position: absolute; left: 0; top: 18px;
+    width: 14px; height: 14px;
+    background: var(--orange);
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+  }
+  ul.bullets li b { color: var(--ink); font-weight: 800; }
+
+  /* Pill */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--ink); color: #fff;
+    padding: 6px 12px; border-radius: 999px;
+    font: 800 12px/1 Nunito;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .pill.gold { background: var(--gold); color: var(--ink); }
+  .pill.green { background: var(--green); color: #fff; }
+  .pill.orange { background: var(--orange); color: #fff; }
+
+  /* Stat row */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 18px 0;
+  }
+  .stat-row .stat .num { font-size: 44px; }
+  .stat-row .stat .lbl {
+    font: 800 12px/1.3 Nunito;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* Tagline / quote */
+  .quote {
+    font: 800 30px/1.25 Fraunces;
+    border-left: 6px solid var(--orange);
+    padding-left: 20px;
+    color: var(--ink);
+    margin: 8px 0;
+  }
+
+  /* Decorative coin */
+  .coin-deco {
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 4px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font: 900 64px/1 Fraunces;
+    box-shadow: inset -8px -8px 0 rgba(0,0,0,0.12);
+  }
+
+  /* Title slide */
+  .title-slide {
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .title-slide::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, var(--gold) 0%, var(--gold) 35%, transparent 70%);
+    opacity: 0.5;
+  }
+  .title-slide::after {
+    content: '';
+    position: absolute;
+    bottom: -300px; left: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, var(--green-soft) 0%, transparent 60%);
+    opacity: 0.6;
+  }
+
+  /* Section divider slide */
+  .section-slide {
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+  }
+  .section-slide .h1 { color: var(--paper); }
+  .section-slide .eyebrow { color: var(--gold); }
+  .section-slide .body { color: rgba(255,248,236,0.78); }
+
+  /* Two-col with extra wide left panel */
+  .doc-col {
+    background: var(--paper-2);
+    border-radius: 0;
+    padding: 28px 32px;
+    border: 2px solid var(--ink);
+    margin-top: 8px;
+  }
+
+  /* Dotted divider */
+  .dots {
+    border: 0; border-top: 2px dotted var(--ink);
+    margin: 14px 0;
+  }
+
+  /* Plant cards mini */
+  .plant-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .plant-card {
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 3px 0 var(--ink);
+  }
+  .plant-card .name { font: 900 14px/1.1 Nunito; color: var(--ink); }
+  .plant-card .real { font: 700 11px/1.3 Nunito; color: var(--ink-3); margin-top: 2px; }
+  .plant-card .meta {
+    display: flex; gap: 8px; margin-top: 6px;
+    font: 800 11px/1 Nunito; color: var(--ink-2);
+  }
+  .plant-card .meta span { background: rgba(0,0,0,0.06); padding: 3px 7px; border-radius: 999px; }
+
+  /* Risk dots */
+  .risk-dots { display: inline-flex; gap: 2px; }
+  .risk-dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(0,0,0,0.18);
+  }
+  .risk-dots span.on { background: var(--orange); }
+
+  /* Architecture cards */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .arch-card {
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 3px 0 var(--ink);
+  }
+  .arch-card .num {
+    font: 900 28px/1 Fraunces;
+    color: var(--orange);
+  }
+  .arch-card h4 {
+    font: 800 16px/1.2 Nunito;
+    margin: 8px 0 6px;
+  }
+  .arch-card p {
+    font: 600 13px/1.45 Nunito;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* Tagline blocks for highlights */
+  .hl {
+    background: var(--gold);
+    border: 2px solid var(--ink);
+    padding: 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 var(--ink);
+    font: 800 18px/1.35 Nunito;
+    color: var(--ink);
+  }
+  .hl.green { background: var(--green-soft); }
+  .hl.coral { background: #FFC4B0; }
+
+  /* Visual glyph holders */
+  .glyph {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    font-size: 28px;
+    box-shadow: 0 3px 0 var(--ink);
   }
 </style>
-
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="pip-duo.jsx"></script>
-<script type="text/babel" src="mascot.jsx"></script>
-<script type="text/babel" src="icons.jsx"></script>
-<script type="text/babel" src="data.jsx"></script>
-<script type="text/babel" src="shared.jsx"></script>
-<script type="text/babel" src="kid-screens.jsx"></script>
-<script type="text/babel" src="kid-screens-2.jsx"></script>
-<script type="text/babel" src="coin-garden-data.jsx"></script>
-<script type="text/babel" src="coin-garden-art.jsx"></script>
-<script type="text/babel" src="coin-garden-screens.jsx"></script>
-<script type="text/babel" src="coin-garden-parent.jsx"></script>
-<script type="text/babel" src="parent-screens.jsx"></script>
-<script type="text/babel" src="onboarding.jsx"></script>
 </head>
 <body>
+
+<deck-stage>
+
+<!-- ════════════════ 01  TITLE ════════════════ -->
+<section class="title-slide" data-screen-label="01 Cover">
+  <div style="position: absolute; left: 80px; top: 100px;">
+    <div class="brand-mark" style="position: static; margin-bottom: 40px;">
+      <span class="dot">R</span>
+      <span style="font: 800 22px/1 Fraunces;">Rewardify</span>
+    </div>
+    <div class="eyebrow orange" style="margin-bottom: 20px;">Product deck · v1 · 2025</div>
+    <h1 class="h1" style="font-size: 124px; max-width: 950px;">
+      A piggy<br>bank that<br><em style="font-style: italic; color: var(--orange);">grows</em>.
+    </h1>
+    <p class="lede" style="margin-top: 36px; max-width: 620px; font-size: 26px;">
+      Kids earn coins for chores, spend them on real stuff, and watch their savings grow into a living garden. Parents stay quietly in control.
+    </p>
+    <div style="display: flex; gap: 14px; margin-top: 36px; align-items: center;">
+      <span class="pill orange">21 screens</span>
+      <span class="pill">2 personas</span>
+      <span class="pill green">7 plant types</span>
+      <span class="pill gold">Live in this deck</span>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>01</b> · 22</div>
+</section>
+
+<!-- ════════════════ 02  AT A GLANCE ════════════════ -->
+<section data-screen-label="02 At a glance">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 02 · Overview</span><span>At a glance</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow">What it is</div>
+      <h2 class="h2">A two-app system for the family economy.</h2>
+      <p class="lede">Rewardify is a chore-based reward platform that pairs a playful kid app with a calm parent app. Coins are the unit of trust between the two — earned for completed tasks, spent on parent-approved rewards, and grown in a metaphorical "garden" that teaches the basics of saving and investing.</p>
+      <hr class="dots"/>
+      <div class="stat-row">
+        <div class="stat"><div class="num" style="font-size: 44px;">2</div><div class="lbl">Personas (Kid · Parent)</div></div>
+        <div class="stat"><div class="num" style="font-size: 44px;">21</div><div class="lbl">Screens shipped</div></div>
+        <div class="stat"><div class="num" style="font-size: 44px;">7</div><div class="lbl">Plant / asset types</div></div>
+      </div>
+      <div class="hl" style="margin-top: 14px;">Coins → real money at a configurable rate. Garden returns are simulated via plant-specific weekly weather.</div>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Kid home</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.home&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap">Kid home — streak, level, today's missions, weekly quests <span class="mono">?screen=kid.home</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>02</b> · 22</div>
+</section>
+
+<!-- ════════════════ 03  PROBLEM ════════════════ -->
+<section data-screen-label="03 Problem">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 03 · Why it matters</span><span>The problem</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">The problem</div>
+      <h2 class="h2">Money is invisible to kids — and chores are a fight.</h2>
+      <p class="lede">Cash disappeared. Cards mean nothing to a six-year-old. Kids don't see effort → reward, and parents end up nagging or paying without context.</p>
+      <ul class="bullets" style="margin-top: 12px;">
+        <li><b>No effort loop</b> — pocket money is detached from the work it's meant to reward.</li>
+        <li><b>No visible saving</b> — money in a bank account is an abstraction, not a story.</li>
+        <li><b>Parent friction</b> — tracking who did what, who gets paid, and what they bought is a mess.</li>
+        <li><b>No financial literacy on-ramp</b> — kids hit 18 with zero intuition for compounding, risk, or trade-offs.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--berry);">Live · Onboarding</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=onboarding&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap">First-run onboarding sets the tone — playful, calm, narrative. <span class="mono">?screen=onboarding</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>03</b> · 22</div>
+</section>
+
+<!-- ════════════════ 04  SOLUTION / PILLARS ════════════════ -->
+<section data-screen-label="04 Solution pillars">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 04 · Solution</span><span>Three pillars</span></div>
+  <div style="position: absolute; inset: 96px 48px 80px;">
+    <div class="eyebrow green">Solution</div>
+    <h2 class="h2" style="margin: 8px 0 14px;">Earn it. Spend it. Grow it.</h2>
+    <p class="lede" style="max-width: 900px;">Rewardify wraps three loops — a chore loop, a shop loop, and a garden loop — into one app the kid wants to open every day, while keeping the parent in light-touch control.</p>
+    <div class="arch-grid" style="margin-top: 28px;">
+      <div class="arch-card" style="background: #FFE0B0;">
+        <div class="num">01</div>
+        <h4>Earn — Missions & quests</h4>
+        <p>Parents set tasks with coin values. Kids tap to complete; some auto-approve, some go to parents for photo verification. Streaks, badges and weekly quests keep it fun.</p>
+      </div>
+      <div class="arch-card" style="background: #FFC4B0;">
+        <div class="num">02</div>
+        <h4>Spend — Family shop</h4>
+        <p>A parent-curated catalog (LEGO, books, gift cards, screen time, family treats). Kid checks out in coins; parents fulfill with real money or experience.</p>
+      </div>
+      <div class="arch-card" style="background: #DFF7E9;">
+        <div class="num">03</div>
+        <h4>Grow — Coin Garden</h4>
+        <p>Coins planted in a 3×3 garden grow week-by-week through 7 plant types — each modeling a real financial product, from savings to crypto.</p>
+      </div>
+    </div>
+    <div class="hl green" style="margin-top: 24px; max-width: 900px;">
+      The garden is the emotional hook. It turns abstract compounding into a thing kids visit, water with attention, and harvest with pride.
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>04</b> · 22</div>
+</section>
+
+<!-- ════════════════ 05  KID HOME ════════════════ -->
+<section data-screen-label="05 Kid Home">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 05 · Kid app</span><span>Home</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Home tab</div>
+      <h3 class="h3">"Hey Maya — let's earn today."</h3>
+      <p class="body">The home screen is the daily hook. Three things, top to bottom: your level + streak (Pip the squirrel cheers), today's missions, and weekly quests for streak-style mini-arcs.</p>
+      <ul class="bullets">
+        <li><b>Streak card</b> — animated mascot, level XP bar, coin balance pinned top-right.</li>
+        <li><b>Today's missions</b> — one-tap complete; finished tasks dim with a strikethrough so progress is visible.</li>
+        <li><b>Coin-fly animation</b> — every completed task spawns coins flying up to the balance, turning the loop into a tactile reward.</li>
+        <li><b>Weekly quests</b> — multi-step arcs (Daily warm-up, Weekly reader) with their own progress meters.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Home</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.home&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.home</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>05</b> · 22</div>
+</section>
+
+<!-- ════════════════ 06  KID MISSIONS ════════════════ -->
+<section data-screen-label="06 Kid Missions">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 06 · Kid app</span><span>Missions</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Missions tab</div>
+      <h3 class="h3">Every chore is a mission with a price tag.</h3>
+      <p class="body">Tasks are color-coded by category (Family, School, Self-care). Each card shows the icon, coin value, recurrence, and verification mode. Complete-on-tap or send-for-review depending on what the parent set.</p>
+      <ul class="bullets">
+        <li><b>Three states</b> — pending · sent for review · approved — visible at a glance.</li>
+        <li><b>Photo verification</b> — for "made bed" and "walked dog" type tasks; kid snaps a pic, parent sees it in their queue.</li>
+        <li><b>Recurrence</b> — daily, weekly, or one-shot. Streaks are tied to dailies.</li>
+        <li><b>Filtering</b> — by category, by status, by remaining-today.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Missions</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.tasks&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.tasks</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>06</b> · 22</div>
+</section>
+
+<!-- ════════════════ 07  KID SHOP ════════════════ -->
+<section data-screen-label="07 Kid Shop">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 07 · Kid app</span><span>Family shop</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Shop tab</div>
+      <h3 class="h3">Window-shopping with coins.</h3>
+      <p class="body">A parent-curated catalog rendered as soft-gradient product cards. Items can be physical (LEGO, scooter), digital (Roblox card, screen time), or experiential (ice cream trip, family treat).</p>
+      <ul class="bullets">
+        <li><b>Mixed inventory</b> — vendor + dollar price + coin price all shown so the kid sees the conversion.</li>
+        <li><b>Affordability hint</b> — items below balance get a green "you can buy this" treatment; out-of-reach items show coins-needed.</li>
+        <li><b>Order = pending review</b> — a purchase doesn't auto-fulfill; it lands in the parent's Orders queue for parent to actually buy.</li>
+        <li><b>Wishlist</b> — kids can star anything to save up toward.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Shop</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.shop&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.shop</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>07</b> · 22</div>
+</section>
+
+<!-- ════════════════ 08  KID LEARN ════════════════ -->
+<section data-screen-label="08 Kid Learn">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 08 · Kid app</span><span>Learn</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Learn tab</div>
+      <h3 class="h3">Bite-sized money lessons that pay coins.</h3>
+      <p class="body">Each lesson is a 60-second card-deck story (What is interest? · Wants vs needs · Why we save). Finishing a lesson awards XP-coins so learning is its own paid mission.</p>
+      <ul class="bullets">
+        <li><b>Card-stack format</b> — swipeable, illustrated, kid-comprehension first.</li>
+        <li><b>Coin reward</b> — every completed lesson drops 5–15 coins to the balance.</li>
+        <li><b>Tied to garden</b> — unlocking new plant types requires beating the relevant lesson (Acorn → "What is a deposit?", Sunflower → "How do funds work?").</li>
+        <li><b>Parent-defined difficulty</b> — pick by age band; lessons get longer and richer as kids level up.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Learn</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.learn&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.learn</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>08</b> · 22</div>
+</section>
+
+<!-- ════════════════ 09  KID ME ════════════════ -->
+<section data-screen-label="09 Kid Me">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 09 · Kid app</span><span>Me</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Me tab</div>
+      <h3 class="h3">A profile that feels like a player card.</h3>
+      <p class="body">"Me" is the kid's identity hub — avatar, level, streak, and the doors to their three personal sub-screens: Wallet (transaction history), Achievements (badges), and Garden.</p>
+      <ul class="bullets">
+        <li><b>Identity</b> — playful avatar, name, age, level.</li>
+        <li><b>Three doors</b> — Wallet · Achievements · Garden — each full-screen sub-experiences.</li>
+        <li><b>Settings (lite)</b> — sound, theme; nothing that affects money rules.</li>
+        <li><b>"Ask a parent"</b> — direct shortcut to message a parent if the kid wants something added to the shop.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Me</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.me&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.me</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>09</b> · 22</div>
+</section>
+
+<!-- ════════════════ 10  KID WALLET ════════════════ -->
+<section data-screen-label="10 Kid Wallet">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 10 · Kid app</span><span>Wallet</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Wallet</div>
+      <h3 class="h3">Where every coin came from — and where it went.</h3>
+      <p class="body">A clear ledger of earnings, spending and planting. Each entry shows the action, the coin delta, and a timestamp. The big balance at the top is the source of pride.</p>
+      <ul class="bullets">
+        <li><b>Color-coded entries</b> — green for earn, coral for spend, lavender for plant/harvest.</li>
+        <li><b>Filter chips</b> — by week, by source, by category.</li>
+        <li><b>Weekly summary</b> — earned vs spent vs grown — exactly what your bank app should show grownups.</li>
+        <li><b>Plant CTA</b> — "Send some coins to your garden" lives at the bottom, nudging savings without forcing it.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Wallet</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.wallet&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.wallet</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>10</b> · 22</div>
+</section>
+
+<!-- ════════════════ 11  KID ACHIEVEMENTS ════════════════ -->
+<section data-screen-label="11 Kid Achievements">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 11 · Kid app</span><span>Achievements</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow orange">Kid · Achievements</div>
+      <h3 class="h3">Badges that mark milestones, not vanity.</h3>
+      <p class="body">Badges are awarded for behavioral milestones — not for spending. First-task, 7-day streak, first plant, first harvest, first lesson, "spent zero this week" — they reward habits, not consumption.</p>
+      <ul class="bullets">
+        <li><b>Locked / Unlocked grid</b> — visual progression keeps kids tuned in to what's next.</li>
+        <li><b>Unlock animations</b> — full-screen celebration with confetti.</li>
+        <li><b>Shareable</b> — tap-and-hold to send a "Maya hit a 7-day streak!" card to a parent group chat.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag">Live · Achievements</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.achievements&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.achievements</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>11</b> · 22</div>
+</section>
+
+<!-- ════════════════ 12  COIN GARDEN HERO ════════════════ -->
+<section data-screen-label="12 Coin Garden">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 12 · Coin Garden</span><span>Hero feature</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow green">★ Hero feature</div>
+      <h2 class="h2" style="font-size: 64px;">The Coin Garden.</h2>
+      <p class="lede">A 3×3 plot of soil where saved coins grow into <b>seven distinct plants</b> — each modeling a real financial product. Plant, wait, harvest, reinvest. Real compounding, dressed as a garden.</p>
+      <div class="plant-grid">
+        <div class="plant-card"><div class="name">🌱 Sprout</div><div class="real">Savings · 0.2%/wk</div><div class="meta"><span>1 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span></span><span></span><span></span><span></span></span></span></div></div>
+        <div class="plant-card"><div class="name">🌰 Acorn</div><div class="real">Term Deposit · 0.5%/wk</div><div class="meta"><span>4 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span></span><span></span><span></span><span></span></span></span></div></div>
+        <div class="plant-card"><div class="name">🌻 Sunflower</div><div class="real">Index Fund · 0.9%/wk</div><div class="meta"><span>8 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span></span></div></div>
+        <div class="plant-card"><div class="name">🫐 Berry Bush</div><div class="real">Mutual Fund · 1.1%/wk</div><div class="meta"><span>4 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span></span></div></div>
+        <div class="plant-card"><div class="name">🌳 Mighty Oak</div><div class="real">Retirement · 1.4%/wk</div><div class="meta"><span>12 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span></span></div></div>
+        <div class="plant-card"><div class="name">🌵 Cactus</div><div class="real">Defensive · 0.4%/wk</div><div class="meta"><span>9 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span></span><span></span><span></span><span></span></span></span></div></div>
+        <div class="plant-card" style="grid-column: span 2;"><div class="name">🪄 Magic Bean</div><div class="real">Crypto / High-risk · ±3%/wk swings</div><div class="meta"><span>3 wk</span><span>Risk <span class="risk-dots"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></span><span>Can crash to 0</span></div></div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--green);">Live · Garden</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.garden&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap">3×3 top-down garden · plot glows when ripe · weather chip at top right <span class="mono">?screen=kid.garden</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>12</b> · 22</div>
+</section>
+
+<!-- ════════════════ 13  GARDEN — PLANT PICKER + CROSS SECTION ════════════════ -->
+<section data-screen-label="13 Garden Detail">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 13 · Coin Garden</span><span>Plant + grow</span></div>
+  <div style="position: absolute; inset: 96px 48px 80px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;">
+    <div style="display: flex; flex-direction: column; justify-content: center; gap: 14px;">
+      <div class="eyebrow green">The growth loop</div>
+      <h3 class="h3" style="font-size: 32px;">Pick → plant → tend → harvest.</h3>
+      <p class="body" style="font-size: 16px;">Tap an empty plot, choose a plant, set how many coins to plant. The cross-section view shows the canopy above and root system below, so kids see <em>real</em> growth — not just a number ticking up.</p>
+      <ul class="bullets">
+        <li><b>Locked until ripe</b> — sturdy plants can't be dug up early. The bonus is the reward for waiting.</li>
+        <li><b>Dig-up early</b> — short-cycle plants allow withdrawal at planted-value (no bonus).</li>
+        <li><b>Harvest celebration</b> — confetti, the option to reinvest or keep coins.</li>
+        <li><b>Weekly weather</b> — sun, rain, storm, drought. Each plant has its own response curve.</li>
+      </ul>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="phone-wrap small">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--orange);">Picker</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.garden.picker&print=1"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="phone-wrap small">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--green);">Cross-section</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.garden.detail&print=1"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>13</b> · 22</div>
+</section>
+
+<!-- ════════════════ 14  GARDEN — WEATHER ════════════════ -->
+<section data-screen-label="14 Weather">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 14 · Coin Garden</span><span>Weather events</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow green">Weather as risk model</div>
+      <h3 class="h3">A weekly weather event teaches risk in human language.</h3>
+      <p class="body">Every Sunday a new weather card lands. ☀️ Sunny weeks lift growth fund-style; ⛈️ storms slam high-risk plants; 🏜️ droughts favor the cactus. Kids see in days what real markets do over years.</p>
+      <ul class="bullets">
+        <li><b>4 weather modes</b> — sun, rain, storm, drought — with per-plant multipliers.</li>
+        <li><b>Public + visible</b> — the chip is permanently in view at the top of the garden.</li>
+        <li><b>History reel</b> — past weeks render as little stickers, building a felt-record of "what the market was like."</li>
+        <li><b>Parent-tunable</b> — volatility and weather frequency are settings parents can dial up or down by age.</li>
+      </ul>
+      <div class="hl green" style="margin-top: 14px;">"My cactus was the only thing that didn't lose coins this week" is the most useful financial sentence a 9-year-old can say.</div>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--sky);">Live · Weather</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=kid.garden.weather&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=kid.garden.weather</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>14</b> · 22</div>
+</section>
+
+<!-- ════════════════ 15  PARENT DASHBOARD ════════════════ -->
+<section data-screen-label="15 Parent Dashboard">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 15 · Parent app</span><span>Dashboard</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow">Parent · Family</div>
+      <h3 class="h3">Calm dashboard. No noise. Real signal.</h3>
+      <p class="body">Parents get a deliberately quieter UI: serif tone, soft greys, almost no color except where it carries information. The dashboard lifts what needs attention and hides everything else.</p>
+      <ul class="bullets">
+        <li><b>Action banners</b> — "2 orders to fulfill" · "1 task needs approval" · "🌱 plant ready to harvest" — only when relevant.</li>
+        <li><b>Weekly snapshot</b> — coins-in-family, week-over-week, with a 7-day sparkbar.</li>
+        <li><b>Kid cards</b> — tap any kid to drop into their world.</li>
+        <li><b>Quick actions</b> — New task · Add reward · Coin → $ rate · Coin Garden.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--ink);">Live · Parent home</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.overview&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=parent.overview</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>15</b> · 22</div>
+</section>
+
+<!-- ════════════════ 16  PARENT TASKS ════════════════ -->
+<section data-screen-label="16 Parent Tasks">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 16 · Parent app</span><span>Tasks</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow">Parent · Tasks</div>
+      <h3 class="h3">A task editor parents will actually use.</h3>
+      <p class="body">List of tasks the family has set up, organized by status (active · pending review · archived). Tap any to edit; tap + to add a new one with the lightweight form.</p>
+      <ul class="bullets">
+        <li><b>Recurring tasks</b> — "make bed daily" lives forever; one-shot tasks are visible until done.</li>
+        <li><b>Verification mode</b> — auto-approve · parent confirm · photo verification.</li>
+        <li><b>Per-kid assignment</b> — same task, different coin values for different ages.</li>
+        <li><b>Pending review queue</b> — photo proofs land here for one-tap approval.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--ink);">Live · Parent tasks</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.tasks&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=parent.tasks</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>16</b> · 22</div>
+</section>
+
+<!-- ════════════════ 17  PARENT ADD TASK + ADD REWARD ════════════════ -->
+<section data-screen-label="17 Parent Add">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 17 · Parent app</span><span>Add task / reward</span></div>
+  <div style="position: absolute; inset: 96px 48px 80px; display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 32px;">
+    <div style="display: flex; flex-direction: column; justify-content: center; gap: 14px;">
+      <div class="eyebrow">Lightweight forms</div>
+      <h3 class="h3">Three taps to add a task. Two to add a reward.</h3>
+      <p class="body" style="font-size: 16px;">The flow that gets used twenty times a month must not feel like a tax form. Both the Add Task and Add Reward sheets are radically simplified — title, value, recurrence, done.</p>
+      <ul class="bullets">
+        <li><b>Smart presets</b> — "Make bed (5 coins, daily)" loads with one tap.</li>
+        <li><b>Reward via paste</b> — Amazon / Target / any link → preview card auto-generated.</li>
+        <li><b>Live preview</b> — kids see exactly what's being added before save.</li>
+        <li><b>Saved as templates</b> — re-use last week's setup for next week.</li>
+      </ul>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="phone-wrap small">
+        <div class="phone">
+          <div class="phone-tag">Add task</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.addTask&print=1"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="phone-wrap small">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--berry);">Add reward</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.addReward&print=1"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>17</b> · 22</div>
+</section>
+
+<!-- ════════════════ 18  PARENT SHOP + ORDERS ════════════════ -->
+<section data-screen-label="18 Parent Shop & Orders">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 18 · Parent app</span><span>Shop · Orders</span></div>
+  <div style="position: absolute; inset: 96px 48px 80px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;">
+    <div style="display: flex; flex-direction: column; justify-content: center; gap: 14px;">
+      <div class="eyebrow">The shop is the kid-facing storefront. Orders is the back-office.</div>
+      <h3 class="h3" style="font-size: 30px;">Curate the shelf. Fulfill the cart.</h3>
+      <p class="body" style="font-size: 16px;">Parents control what's on offer. When a kid checks out, the order lands in the parent's queue with one-tap fulfill via an Amazon / Target / merchant deeplink — or "mark fulfilled" for non-purchase rewards.</p>
+      <ul class="bullets">
+        <li><b>Approval modes</b> — auto-fulfill under N coins, manual above.</li>
+        <li><b>Vendor split</b> — physical + digital + experience cleanly separated.</li>
+        <li><b>Order history</b> — tied to the kid; powers the "Maya bought 3 things this month" recap.</li>
+      </ul>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="phone-wrap small">
+        <div class="phone">
+          <div class="phone-tag">Parent shop</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.shop&print=1"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div class="phone-wrap small">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--orange);">Orders queue</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.orders&print=1"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>18</b> · 22</div>
+</section>
+
+<!-- ════════════════ 19  PARENT GARDEN SUMMARY ════════════════ -->
+<section data-screen-label="19 Parent Garden">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 19 · Parent app</span><span>Garden summary</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow green">Parent · Coin Garden</div>
+      <h3 class="h3">What the kid sees as a garden, the parent sees as a portfolio.</h3>
+      <p class="body">Same data, different lens. Parents get total garden value with growth %, a 12-week trend, real-money equivalent, recent activity feed, breakdown by plant type, and a risk distribution meter.</p>
+      <ul class="bullets">
+        <li><b>Real-money equivalent</b> — at the configured coin → $ rate.</li>
+        <li><b>Activity feed</b> — "Maya planted a Sunflower" · "🎉 Mighty Oak ready" · "Sunny week ahead."</li>
+        <li><b>Risk distribution</b> — low/med/high split with one bar — at-a-glance "is my kid yolo'ing into Magic Beans?"</li>
+        <li><b>Adjustable</b> — toggle which plants the kid is allowed to grow; cap monthly garden allowance.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--green);">Live · Garden summary</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.garden&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=parent.garden</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>19</b> · 22</div>
+</section>
+
+<!-- ════════════════ 20  PARENT SETTINGS ════════════════ -->
+<section data-screen-label="20 Parent Settings">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 20 · Parent app</span><span>Settings</span></div>
+  <div class="two-col">
+    <div class="col-left">
+      <div class="eyebrow">Parent · Settings</div>
+      <h3 class="h3">Every dial that makes the family economy real.</h3>
+      <p class="body">Coin → $ exchange rate · weekly allowance · withdraw-to-bank · Garden APR floor · auto-SIP · plant lock periods · daily spend limits · approval thresholds · photo-verify defaults.</p>
+      <ul class="bullets">
+        <li><b>Coin value</b> — defaults to $0.10/coin; tunable per family budget.</li>
+        <li><b>Auto-SIP</b> — auto-plant N coins from balance every week if balance &gt; threshold.</li>
+        <li><b>Spend limits</b> — daily / monthly caps per kid; over-cap = parent confirm.</li>
+        <li><b>Garden permissions</b> — restrict high-risk plants by age.</li>
+      </ul>
+    </div>
+    <div class="col-right">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-tag" style="background: var(--ink);">Live · Settings</div>
+          <div class="phone-screen">
+          <iframe data-src="app.html?screen=parent.settings&print=1"></iframe>
+        </div>
+        </div>
+        <div class="phone-cap"><span class="mono">?screen=parent.settings</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>20</b> · 22</div>
+</section>
+
+<!-- ════════════════ 21  WHY IT WORKS ════════════════ -->
+<section data-screen-label="21 Why it works">
+  <div class="top-rule"></div>
+  <div class="top-meta"><span>§ 21 · Defensibility</span><span>Why it works</span></div>
+  <div style="position: absolute; inset: 96px 48px 80px;">
+    <div class="eyebrow orange">Why this stays sticky</div>
+    <h2 class="h2" style="margin: 8px 0 18px;">Three loops, one app, both sides happy.</h2>
+    <div class="arch-grid" style="margin-top: 18px;">
+      <div class="arch-card" style="background: #FFE0B0;">
+        <div class="num">⚙️</div>
+        <h4>Daily habit loop</h4>
+        <p>The kid opens the app to complete chores. Streaks, missions and Pip's animations make that hit dopaminergic. Parents barely have to nudge.</p>
+      </div>
+      <div class="arch-card" style="background: #DFF7E9;">
+        <div class="num">📈</div>
+        <h4>Growth loop</h4>
+        <p>The garden compounds attention. A Mighty Oak is a 12-week commitment — kids check on it. Weather events bring them back weekly even if they don't earn.</p>
+      </div>
+      <div class="arch-card" style="background: #FFC4B0;">
+        <div class="num">🤝</div>
+        <h4>Parent stickiness</h4>
+        <p>Once the family economy is in here, switching costs are real. Tasks, history, garden, exchange rate, kid identities — all live.</p>
+      </div>
+    </div>
+    <hr class="dots" style="margin: 28px 0;">
+    <div class="stat-row">
+      <div class="stat"><div class="num">2×</div><div class="lbl">App opens / day target</div></div>
+      <div class="stat"><div class="num">7d</div><div class="lbl">Median streak goal</div></div>
+      <div class="stat"><div class="num">4wk</div><div class="lbl">Avg plant cycle</div></div>
+    </div>
+    <div class="hl green" style="margin-top: 24px;">
+      Greenlight made allowance digital. GoHenry made it gamified. Rewardify makes it grow — by turning the boring saving step into the most beautiful screen in the app.
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>21</b> · 22</div>
+</section>
+
+<!-- ════════════════ 22  CLOSING ════════════════ -->
+<section data-screen-label="22 What's next" class="title-slide">
+  <div style="position: absolute; left: 80px; top: 110px; max-width: 1100px;">
+    <div class="eyebrow orange">What's next</div>
+    <h1 class="h1" style="font-size: 96px; margin-top: 14px;">Coins that<br>compound habits.</h1>
+    <p class="lede" style="margin-top: 32px; max-width: 760px; font-size: 24px;">
+      v1 ships with the full kid + parent loop and the Coin Garden hero feature. The roadmap stacks: real bank-link sweep, peer chores ("ask Dad to do this for 50 coins"), school-mode classrooms, and a tutor-grade financial literacy curriculum.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; max-width: 1100px;">
+      <div class="arch-card"><h4 style="margin-top: 0;">Q1</h4><p>Beta with 50 families. Iterate weather + harvest tuning.</p></div>
+      <div class="arch-card"><h4 style="margin-top: 0;">Q2</h4><p>Bank-link sweep. Real $ → coin rails. School pilots.</p></div>
+      <div class="arch-card"><h4 style="margin-top: 0;">Q3</h4><p>Peer chores. Sibling marketplace. Multi-kid bundles.</p></div>
+      <div class="arch-card"><h4 style="margin-top: 0;">Q4</h4><p>Curriculum-grade lessons. Auto-SIP. Locked-savings goals.</p></div>
+    </div>
+    <div style="display: flex; gap: 14px; margin-top: 40px; align-items: center;">
+      <span class="pill orange">Live demo</span>
+      <span style="font: 700 16px/1 Nunito; color: var(--ink-2);">Open <span class="mono" style="background: var(--ink); color: var(--paper); padding: 4px 8px; border-radius: 6px;">Rewardify.html</span> for the playable build.</span>
+    </div>
+  </div>
+  <div class="brand-mark"><span class="dot">R</span> Rewardify</div>
+  <div class="page-num"><b>22</b> · 22</div>
+</section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+
 <template id="__bundler_thumbnail">
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <rect width="100" height="100" fill="#FFF8EC"/>
-    <rect x="20" y="20" width="60" height="60" rx="14" fill="#FF6B35"/>
-    <text x="50" y="68" text-anchor="middle" font-family="Fraunces, serif" font-weight="800" font-size="44" fill="#fff">R</text>
+    <circle cx="68" cy="32" r="22" fill="#FFC93C"/>
+    <rect x="20" y="58" width="60" height="32" rx="4" fill="#1F7855"/>
+    <text x="50" y="80" text-anchor="middle" font-family="serif" font-weight="900" font-size="14" fill="#FFF8EC">R</text>
   </svg>
 </template>
-<div id="root"></div>
 
-<script type="text/babel" src="app.jsx"></script>
-<script type="text/babel">
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-</script>
 
 <script>
-/* Mobile fit-to-viewport scaler.
-   Computes the largest scale that lets the .frames element fit the viewport,
-   accounting for the view-switch chrome at top and a small safety margin.
-   Updates a CSS variable; CSS handles the rest. */
 (function () {
-  function fit() {
-    var stage = document.querySelector('.stage');
-    var frames = document.querySelector('.frames');
-    if (!stage || !frames) return;
-    // Reset transform to measure natural size
-    var prev = frames.style.transform;
-    frames.style.transform = 'scale(1)';
-    var w = frames.offsetWidth, h = frames.offsetHeight;
-    frames.style.transform = prev;
-    if (!w || !h) return;
-    // Available area: viewport minus chrome (view-switch ~70px) and safe areas
-    var chromeTop = 80;
-    var marginX = 16, marginBottom = 16;
-    var availW = window.innerWidth - marginX * 2;
-    var availH = window.innerHeight - chromeTop - marginBottom;
-    var scale = Math.min(availW / w, availH / h, 1);
-    // On wide screens we cap at 1 (don't enlarge); on mobile this scales down.
-    document.documentElement.style.setProperty('--fit-scale', scale.toFixed(4));
+  const stage = document.querySelector('deck-stage');
+  if (!stage) return;
+  // Keep a sliding window of loaded iframes: current + neighbors (prev/next)
+  // so navigation feels instant, but pages further away are unloaded to save memory.
+  const WINDOW = 2; // slides on either side of the current slide
+  function activate(idx) {
+    const slides = stage.querySelectorAll('section');
+    slides.forEach((sl, i) => {
+      const ifrs = sl.querySelectorAll('iframe[data-src]');
+      const dist = Math.abs(i - idx);
+      const shouldLoad = dist <= WINDOW;
+      ifrs.forEach((f) => {
+        if (shouldLoad) {
+          if (!f.src && f.dataset.src) f.src = f.dataset.src;
+        } else {
+          if (f.src) f.src = '';
+        }
+      });
+    });
   }
-  // Run after first paint so React has mounted .frames
-  if (document.readyState === 'complete') setTimeout(fit, 60);
-  else window.addEventListener('load', function () { setTimeout(fit, 60); });
-  // Also re-run when React likely finishes (covers Babel async)
-  setTimeout(fit, 400);
-  setTimeout(fit, 1200);
-  setTimeout(fit, 2500);
-  window.addEventListener('resize', fit);
-  window.addEventListener('orientationchange', fit);
-  // Observe DOM mutations on root in case frames mount later
-  var mo = new MutationObserver(function () { fit(); });
-  mo.observe(document.body, { childList: true, subtree: true });
-  setTimeout(function () { mo.disconnect(); }, 5000);
+  stage.addEventListener('slidechange', (e) => activate(e.detail.index));
+  // Initial activation in case slidechange fires before listener attaches
+  setTimeout(() => {
+    const cur = stage._index ?? 0;
+    activate(cur);
+  }, 100);
 })();
 </script>
+
 </body>
 </html>
